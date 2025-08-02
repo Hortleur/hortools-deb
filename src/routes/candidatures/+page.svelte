@@ -51,7 +51,6 @@
         await getCandidatures()
         await editCandidatureModal.close()
     }
-    $inspect(candidatureToEdit)
 
     const createCandidature = async() => {
         console.log(company, candidatureStatusId, link, dateOfApplication)
@@ -103,19 +102,12 @@
     }
 
     const createStatus = async() => {
-        const response = await fetch('http://localhost:3333/api/status', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                name: statusName
-            })
-        })
-        const res = await response.json()
+        const data = {
+            name: statusName
+        }
+        const response = await CREATE('status', token, data)
         if (response.ok) {
-            showAlertMessage(res.message)
+            showAlertMessage(response.message)
         }
         await getAllStatus()
         defineActionForStatus('','',0)
